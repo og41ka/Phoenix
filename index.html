@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="PHÖNIX – persönliches Betriebssystem für täglichen Fortschritt." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>PHÖNIX</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🔥</div>
+        <div>
+          <h1>PHÖNIX</h1>
+          <p>Beta 0.3 · Operation Wiederaufbau</p>
+        </div>
+      </div>
+      <span class="version">lokal & privat</span>
+    </header>
+
+    <main>
+      <section class="view active" data-view="today">
+        <article class="card hero">
+          <div>
+            <span class="eyebrow">HEUTIGE PRIORITÄT</span>
+            <h2 id="priorityTitle">Stabilität schaffen</h2>
+            <p id="priorityReason">Erledige zuerst die Aufgabe mit dem höchsten Einfluss auf deine Existenzsicherung.</p>
+          </div>
+          <div class="score-ring" id="scoreRing" style="--score:0">
+            <div><strong id="scoreValue">0</strong><span>/ 100</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">TAGESMISSIONEN</span>
+              <h2>Heute</h2>
+            </div>
+            <span id="taskCounter" class="muted">0/5</span>
+          </div>
+          <div id="taskList"></div>
+        </article>
+
+        <div class="metrics">
+          <article class="metric"><strong id="streakValue">0</strong><span>cannabisfreie Tage</span></article>
+          <article class="metric"><strong id="checkinValue">0</strong><span>Check-ins</span></article>
+          <article class="metric"><strong id="moodValue">–</strong><span>Ø Stimmung</span></article>
+          <article class="metric"><strong id="sportValue">0</strong><span>Sporttage</span></article>
+        </div>
+      </section>
+
+      <section class="view" data-view="checkin">
+        <article class="card">
+          <span class="eyebrow">2-MINUTEN-RITUAL</span>
+          <h2>Daily Check-in</h2>
+
+          <label>Stimmung <strong id="moodLabel">5</strong>/10</label>
+          <input id="mood" type="range" min="1" max="10" value="5" />
+
+          <label>Energie <strong id="energyLabel">5</strong>/10</label>
+          <input id="energy" type="range" min="1" max="10" value="5" />
+
+          <label>Schlaf in Stunden</label>
+          <input id="sleep" type="number" min="0" max="16" step="0.5" placeholder="z. B. 7,5" />
+
+          <div class="check-grid">
+            <label class="check"><input id="cannabisFree" type="checkbox" /> Cannabisfrei</label>
+            <label class="check"><input id="sportDone" type="checkbox" /> Sport / Bewegung</label>
+            <label class="check"><input id="waterDone" type="checkbox" /> 2 Liter Wasser</label>
+          </div>
+
+          <label>Was habe ich heute wirklich geschafft?</label>
+          <textarea id="win" placeholder="Ein konkretes Ergebnis genügt."></textarea>
+
+          <label>Was war mein größter Engpass?</label>
+          <textarea id="blocker" placeholder="Zum Beispiel Müdigkeit, Aufschieben oder Unsicherheit."></textarea>
+
+          <label>Wichtigste Aufgabe für morgen</label>
+          <input id="tomorrow" type="text" placeholder="Eine klare Aufgabe" />
+
+          <button class="primary" id="saveCheckin">Check-in speichern</button>
+          <p class="status" id="saveStatus"></p>
+        </article>
+      </section>
+
+      <section class="view" data-view="missions">
+        <article class="card">
+          <span class="eyebrow">LANGFRISTIGE AUSRICHTUNG</span>
+          <h2>Mission Center</h2>
+          <div id="missionList"></div>
+          <button class="primary" id="saveMissions">Missionen speichern</button>
+        </article>
+      </section>
+
+      <section class="view" data-view="review">
+        <article class="card">
+          <span class="eyebrow">LETZTE 7 EINTRÄGE</span>
+          <h2>Wochenreview</h2>
+          <div class="metrics compact">
+            <article class="metric"><strong id="reviewMood">–</strong><span>Ø Stimmung</span></article>
+            <article class="metric"><strong id="reviewEnergy">–</strong><span>Ø Energie</span></article>
+            <article class="metric"><strong id="reviewSport">0</strong><span>Sporttage</span></article>
+            <article class="metric"><strong id="reviewCannabis">0</strong><span>cannabisfrei</span></article>
+          </div>
+          <div id="history"></div>
+        </article>
+      </section>
+
+      <section class="view" data-view="data">
+        <article class="card">
+          <span class="eyebrow">DATENSCHUTZ</span>
+          <h2>Deine Daten</h2>
+          <p>Alle Einträge liegen nur im Browser dieses Geräts. Exportiere regelmäßig eine Sicherung.</p>
+          <div class="button-stack">
+            <button class="primary" id="exportData">Daten exportieren</button>
+            <label class="secondary file-button">
+              Daten importieren
+              <input id="importData" type="file" accept=".json" hidden />
+            </label>
+            <button class="danger" id="resetData">Alle lokalen Daten löschen</button>
+          </div>
+          <div class="notice">
+            PHÖNIX ist ein Selbstorganisationswerkzeug und ersetzt keine medizinische, rechtliche oder finanzielle Beratung.
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Hauptnavigation">
+      <button class="active" data-target="today"><span>⌂</span>Heute</button>
+      <button data-target="checkin"><span>✓</span>Check-in</button>
+      <button data-target="missions"><span>◎</span>Missionen</button>
+      <button data-target="review"><span>▥</span>Review</button>
+      <button data-target="data"><span>⚙</span>Daten</button>
+    </nav>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
